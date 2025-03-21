@@ -60,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        app:liftOnScrollTargetViewId="@id/recycler_view"
         app:statusBarForeground="?attr/colorSurface">
 
         <com.google.android.material.search.SearchBar
