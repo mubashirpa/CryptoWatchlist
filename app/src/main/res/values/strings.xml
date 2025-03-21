@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Crypto Watchlist</string>
     <string name="retry">Retry</string>
+    <string name="no_coins_found">No coins found</string>
 
     <!-- Screen labels -->
     <string name="label_home_screen">Home</string>
