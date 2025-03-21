@@ -5,6 +5,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.cryptowatchlist.databinding.ActivityMainBinding
+import com.example.cryptowatchlist.navigation.findNavController
 import com.google.android.material.color.DynamicColors
 
 class MainActivity : AppCompatActivity() {
@@ -19,5 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        findNavController(binding.navHostFragment.id)
     }
 }
