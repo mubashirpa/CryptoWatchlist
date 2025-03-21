@@ -51,7 +51,7 @@
 
     <style name="Theme.CryptoWatchlist" parent="Base.Theme.CryptoWatchlist" />
 
-    <style name="Theme.StockWatchlist.Starting" parent="Theme.SplashScreen">
+    <style name="Theme.CryptoWatchlist.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/md_theme_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenAnimationDuration">1000</item>
