@@ -106,7 +106,7 @@ class HomeFragment : Fragment() {
             )
         val loaderStateAdapter =
             LoaderStateAdapter {
-                // TODO: Implement retry
+                homeAdapter.retry()
             }
         val concatAdapter = homeAdapter.withLoadStateFooter(loaderStateAdapter)
         binding.recyclerView.adapter = concatAdapter
