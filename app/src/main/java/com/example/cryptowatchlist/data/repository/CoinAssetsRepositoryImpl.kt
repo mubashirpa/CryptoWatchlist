@@ -4,6 +4,7 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.cryptowatchlist.BuildConfig
 import com.example.cryptowatchlist.data.local.database.CoinDatabase
 import com.example.cryptowatchlist.data.local.entity.CoinEntity
 import com.example.cryptowatchlist.data.remote.api.CoinCapService
@@ -21,7 +22,7 @@ class CoinAssetsRepositoryImpl(
         ids: List<String>?,
         limit: Int?,
         offset: Int?,
-    ): CoinAssetsDto = api.getAssets(search, ids, limit, offset)
+    ): CoinAssetsDto = api.getAssets(BuildConfig.COIN_CAP_API_KEY, search, ids, limit, offset)
 
     @OptIn(ExperimentalPagingApi::class)
     override suspend fun getCoinAssetsPaging(
@@ -29,12 +30,14 @@ class CoinAssetsRepositoryImpl(
         ids: List<String>?,
         limit: Int?,
         offset: Int?,
-    ): Flow<PagingData<CoinEntity>> =
-        Pager(
+    ): Flow<PagingData<CoinEntity>> {
+        val pageSize = limit ?: NETWORK_PAGE_SIZE
+        return Pager(
             config =
                 PagingConfig(
-                    pageSize = limit ?: NETWORK_PAGE_SIZE,
+                    pageSize = pageSize,
                     enablePlaceholders = false,
+                    initialLoadSize = 2 * pageSize,
                 ),
             remoteMediator =
                 CoinAssetsRemoteMediator(
@@ -48,6 +51,7 @@ class CoinAssetsRepositoryImpl(
                 database.coinAssetsDao().pagingSource()
             },
         ).flow
+    }
 
     companion object {
         const val NETWORK_PAGE_SIZE = 20
