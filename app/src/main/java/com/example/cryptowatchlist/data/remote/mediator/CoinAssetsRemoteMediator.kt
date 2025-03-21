@@ -5,12 +5,15 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
+import com.example.cryptowatchlist.BuildConfig
 import com.example.cryptowatchlist.data.local.database.CoinDatabase
 import com.example.cryptowatchlist.data.local.entity.CoinEntity
+import com.example.cryptowatchlist.data.local.entity.UpdateTimeEntity
 import com.example.cryptowatchlist.data.mapper.toCoinEntityList
 import com.example.cryptowatchlist.data.remote.api.CoinCapService
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalPagingApi::class)
 class CoinAssetsRemoteMediator(
@@ -20,7 +23,17 @@ class CoinAssetsRemoteMediator(
     private val ids: List<String>?,
     private val offset: Int?,
 ) : RemoteMediator<Int, CoinEntity>() {
-    private val dao = database.coinAssetsDao()
+    private val coinAssetsDao = database.coinAssetsDao()
+    private val updateTimeDao = database.updateTimeDao()
+
+    override suspend fun initialize(): InitializeAction {
+        val lastUpdated = updateTimeDao.getUpdateTimeById(0)?.lastUpdated ?: 0
+        return if (isCacheValid(lastUpdated)) {
+            InitializeAction.SKIP_INITIAL_REFRESH
+        } else {
+            InitializeAction.LAUNCH_INITIAL_REFRESH
+        }
+    }
 
     override suspend fun load(
         loadType: LoadType,
@@ -29,19 +42,27 @@ class CoinAssetsRemoteMediator(
         return try {
             val loadKey =
                 when (loadType) {
-                    LoadType.REFRESH -> offset
+                    LoadType.REFRESH -> {
+                        offset
+                    }
 
-                    LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
+                    LoadType.PREPEND -> {
+                        return MediatorResult.Success(endOfPaginationReached = true)
+                    }
 
                     LoadType.APPEND -> {
-                        state.lastItemOrNull()
-                            ?: return MediatorResult.Success(endOfPaginationReached = true)
-                        state.pages.sumOf { it.data.size }
+                        val last = state.lastItemOrNull()
+                        if (last == null) {
+                            offset
+                        } else {
+                            last.rank?.toIntOrNull()?.plus(1)
+                        }
                     }
                 }
 
             val response =
                 api.getAssets(
+                    token = "Bearer ${BuildConfig.COIN_CAP_API_KEY}",
                     search = search,
                     ids = ids,
                     limit = state.config.pageSize,
@@ -51,10 +72,17 @@ class CoinAssetsRemoteMediator(
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    dao.clearAll()
+                    updateTimeDao.deleteUpdateTimeById(0)
+                    coinAssetsDao.clearAll()
                 }
 
-                dao.insertAll(coins)
+                coinAssetsDao.insertAll(coins)
+                updateTimeDao.upsertUpdateTime(
+                    UpdateTimeEntity(
+                        id = 0,
+                        lastUpdated = System.currentTimeMillis(),
+                    ),
+                )
             }
 
             val endOfPaginationReached = coins.isEmpty() || coins.size < state.config.pageSize
@@ -64,5 +92,10 @@ class CoinAssetsRemoteMediator(
         } catch (e: HttpException) {
             MediatorResult.Error(e)
         }
+    }
+
+    fun isCacheValid(lastUpdated: Long): Boolean {
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+        return System.currentTimeMillis() - lastUpdated <= cacheTimeout
     }
 }
