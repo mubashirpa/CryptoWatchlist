@@ -48,7 +48,12 @@ class HomeAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(coin: Coin) {
             binding.apply {
-                name.text = coin.name
+                name.text =
+                    buildString {
+                        append(coin.rank)
+                        append(". ")
+                        append(coin.name)
+                    }
                 volume.text =
                     buildString {
                         append("Vol(24h) $")
