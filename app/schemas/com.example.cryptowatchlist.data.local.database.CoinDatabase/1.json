@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0f00b23123da9894e97e0436edc33385",
+    "identityHash": "c01387b4756ebc7830475375416e5bad",
     "entities": [
       {
         "tableName": "coins",
@@ -89,12 +89,38 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "update_time",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0f00b23123da9894e97e0436edc33385')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c01387b4756ebc7830475375416e5bad')"
     ]
   }
 }
