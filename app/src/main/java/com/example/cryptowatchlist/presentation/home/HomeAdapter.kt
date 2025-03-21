@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptowatchlist.databinding.ListItemCoinBinding
 import com.example.cryptowatchlist.domain.model.Coin
+import java.util.Locale
 
 class HomeAdapter(
     private val onClickListener: OnClickListener,
@@ -47,9 +48,23 @@ class HomeAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(coin: Coin) {
             binding.apply {
-                headline.text = coin.name
-                supportingText.text = coin.symbol
-                trailingText.text = coin.priceUsd?.toIntOrNull()?.toString()
+                name.text = coin.name
+                volume.text =
+                    buildString {
+                        append("Vol(24h) $")
+                        coin.volumeUsd24Hr?.toDoubleOrNull()
+                        append(coin.volumeUsd24Hr?.toDoubleOrNull()?.let(::formatNumber))
+                    }
+                price.text =
+                    buildString {
+                        append("$")
+                        append(coin.priceUsd?.toDoubleOrNull()?.let(::formatNumber))
+                    }
+                percentage.text =
+                    buildString {
+                        append(coin.changePercent24Hr?.toDoubleOrNull()?.round(2))
+                        append("%")
+                    }
 
                 root.setOnClickListener { onClickListener.onClick(coin) }
             }
@@ -61,4 +76,21 @@ class HomeAdapter(
     ) {
         fun onClick(coin: Coin) = clickListener(coin)
     }
+
+    fun Double.round(decimals: Int = 2) = "%.${decimals}f".format(this)
+
+    fun formatNumber(value: Double): String =
+        when {
+            value >= 1_000_000_000_000 -> {
+                String.format(Locale.getDefault(), "%.2fT", value / 1_000_000_000_000.0)
+            }
+
+            value >= 1_000_000_000 -> {
+                String.format(Locale.getDefault(), "%.2fB", value / 1_000_000_000.0)
+            }
+
+            value >= 1_000_000 -> String.format(Locale.getDefault(), "%.2fM", value / 1_000_000.0)
+            value >= 1_000 -> String.format(Locale.getDefault(), "%.2fK", value / 1_000.0)
+            else -> value.round(2)
+        }
 }
