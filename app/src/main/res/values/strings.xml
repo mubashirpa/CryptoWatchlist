@@ -3,6 +3,7 @@
     <string name="retry">Retry</string>
     <string name="no_coins_found">No coins found</string>
     <string name="search">Search</string>
+    <string name="empty_percentage">0.0%</string>
 
     <!-- Screen labels -->
     <string name="label_home_screen">Home</string>
