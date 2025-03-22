@@ -46,4 +46,5 @@ val appModule =
         single { AddCoinToWatchlistUseCase(get()) }
         single { GetWatchlistUseCase(get()) }
         viewModelOf(::HomeViewModel)
+        viewModelOf(::WatchlistViewModel)
     }
