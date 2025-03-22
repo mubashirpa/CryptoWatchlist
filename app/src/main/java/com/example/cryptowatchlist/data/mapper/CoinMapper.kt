@@ -12,26 +12,6 @@ fun CoinDto.toCoinDomainModel(): Coin =
         changePercent24Hr = changePercent24Hr,
         explorer = explorer,
         id = id,
-        isInWatchlist = false,
-        marketCapUsd = marketCapUsd,
-        maxSupply = maxSupply,
-        name = name,
-        priceUsd = priceUsd,
-        rank = rank,
-        supply = supply,
-        symbol = symbol,
-        volumeUsd24Hr = volumeUsd24Hr,
-        vwap24Hr = vwap24Hr,
-    )
-
-fun CoinAssetsDto.toCoinEntityList(): List<CoinEntity> = `data`?.map { it.toCoinEntity() } ?: emptyList()
-
-fun CoinDto.toCoinEntity(): CoinEntity =
-    CoinEntity(
-        id = id!!,
-        changePercent24Hr = changePercent24Hr,
-        explorer = explorer,
-        isInWatchlist = false,
         marketCapUsd = marketCapUsd,
         maxSupply = maxSupply,
         name = name,
@@ -48,7 +28,6 @@ fun CoinEntity.toCoinDomainModel(): Coin =
         changePercent24Hr = changePercent24Hr,
         explorer = explorer,
         id = id,
-        isInWatchlist = isInWatchlist,
         marketCapUsd = marketCapUsd,
         maxSupply = maxSupply,
         name = name,
@@ -65,7 +44,6 @@ fun Coin.toCoinEntity(): CoinEntity =
         id = id!!,
         changePercent24Hr = changePercent24Hr,
         explorer = explorer,
-        isInWatchlist = isInWatchlist,
         marketCapUsd = marketCapUsd,
         maxSupply = maxSupply,
         name = name,

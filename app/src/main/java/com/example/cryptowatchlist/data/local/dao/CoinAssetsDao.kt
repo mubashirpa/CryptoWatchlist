@@ -1,7 +1,7 @@
 package com.example.cryptowatchlist.data.local.dao
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.cryptowatchlist.data.local.entity.CoinEntity
@@ -10,17 +10,11 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CoinAssetsDao {
     @Upsert
-    suspend fun insert(coin: CoinEntity)
-
-    @Upsert
-    suspend fun insertAll(coins: List<CoinEntity>)
+    suspend fun upsertCoin(coin: CoinEntity)
 
     @Query("SELECT * FROM coins")
-    fun pagingSource(): PagingSource<Int, CoinEntity>
+    fun getCoins(): Flow<List<CoinEntity>>
 
-    @Query("DELETE FROM coins")
-    suspend fun clearAll()
-
-    @Query("SELECT * FROM coins WHERE isInWatchlist = 1")
-    fun getWatchlist(): Flow<List<CoinEntity>>
+    @Delete
+    suspend fun deleteCoin(coin: CoinEntity)
 }
