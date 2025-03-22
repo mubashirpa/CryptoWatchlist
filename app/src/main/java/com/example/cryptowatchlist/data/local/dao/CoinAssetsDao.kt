@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.cryptowatchlist.data.local.entity.CoinEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoinAssetsDao {
@@ -19,4 +20,7 @@ interface CoinAssetsDao {
 
     @Query("DELETE FROM coins")
     suspend fun clearAll()
+
+    @Query("SELECT * FROM coins")
+    fun getWatchlist(): Flow<List<CoinEntity>>
 }

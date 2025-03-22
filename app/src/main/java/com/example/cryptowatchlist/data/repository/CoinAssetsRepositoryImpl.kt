@@ -57,6 +57,8 @@ class CoinAssetsRepositoryImpl(
 
     override suspend fun insertCoin(coin: CoinEntity) = coinAssetsDao.insert(coin)
 
+    override fun getWatchlist(): Flow<List<CoinEntity>> = coinAssetsDao.getWatchlist()
+
     companion object {
         const val NETWORK_PAGE_SIZE = 20
     }

@@ -9,8 +9,10 @@ import com.example.cryptowatchlist.domain.repository.CoinAssetsRepository
 import com.example.cryptowatchlist.domain.usecase.AddCoinToWatchlistUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsPagingUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsUseCase
+import com.example.cryptowatchlist.domain.usecase.GetWatchlistUseCase
 import com.example.cryptowatchlist.domain.usecase.SearchCoinAssetsUseCase
 import com.example.cryptowatchlist.presentation.home.HomeViewModel
+import com.example.cryptowatchlist.presentation.watchlist.WatchlistViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
@@ -42,5 +44,6 @@ val appModule =
         single { GetCoinAssetsPagingUseCase(get()) }
         single { SearchCoinAssetsUseCase(get()) }
         single { AddCoinToWatchlistUseCase(get()) }
+        single { GetWatchlistUseCase(get()) }
         viewModelOf(::HomeViewModel)
     }

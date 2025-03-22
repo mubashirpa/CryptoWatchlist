@@ -21,4 +21,6 @@ interface CoinAssetsRepository {
     ): Flow<PagingData<CoinEntity>>
 
     suspend fun insertCoin(coin: CoinEntity)
+
+    fun getWatchlist(): Flow<List<CoinEntity>>
 }
