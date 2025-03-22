@@ -225,6 +225,7 @@ class HomeFragment : Fragment() {
     private fun initSearchRecyclerView(): SearchAdapter {
         val searchAdapter =
             SearchAdapter(
+                context = requireContext(),
                 onClickListener =
                     SearchAdapter.OnClickListener {
                         // TODO: Implement navigation

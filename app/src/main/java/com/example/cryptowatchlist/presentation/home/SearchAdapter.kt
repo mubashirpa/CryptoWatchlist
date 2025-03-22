@@ -1,16 +1,19 @@
 package com.example.cryptowatchlist.presentation.home
 
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptowatchlist.databinding.ListItemCoinBinding
+import com.example.cryptowatchlist.R
+import com.example.cryptowatchlist.databinding.ListItemSearchCoinBinding
 import com.example.cryptowatchlist.domain.model.Coin
 import java.util.Locale
 
 class SearchAdapter(
+    private val context: Context,
     private val onClickListener: OnClickListener,
 ) : ListAdapter<Coin, SearchAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(
@@ -18,7 +21,7 @@ class SearchAdapter(
         viewType: Int,
     ): ViewHolder {
         val binding =
-            ListItemCoinBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ListItemSearchCoinBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -45,7 +48,7 @@ class SearchAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: ListItemCoinBinding,
+        private val binding: ListItemSearchCoinBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(coin: Coin) {
             binding.apply {
@@ -55,20 +58,28 @@ class SearchAdapter(
                         append(". ")
                         append(coin.name)
                     }
-                coin.volumeUsd24Hr?.toDoubleOrNull()?.let {
-                    volume.text =
-                        buildString {
-                            append("Vol(24h) $")
-                            append(it.let(::formatNumber))
-                        }
-                    volume.visibility = View.VISIBLE
-                }
+                symbol.text = coin.symbol
                 price.text =
                     buildString {
                         append("$")
                         append(coin.priceUsd?.toDoubleOrNull()?.let(::formatNumber))
                     }
                 coin.changePercent24Hr?.toDoubleOrNull()?.let {
+                    if (it < 0) {
+                        percentage.setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.red,
+                            ),
+                        )
+                    } else {
+                        percentage.setTextColor(
+                            ContextCompat.getColor(
+                                context,
+                                R.color.green,
+                            ),
+                        )
+                    }
                     percentage.text =
                         buildString {
                             append(it.round(2))
@@ -77,6 +88,10 @@ class SearchAdapter(
                 }
 
                 root.setOnClickListener { onClickListener.onClick(coin) }
+
+                watchlistButton.setOnClickListener {
+                    watchlistButton.isSelected = !watchlistButton.isSelected
+                }
             }
         }
     }
