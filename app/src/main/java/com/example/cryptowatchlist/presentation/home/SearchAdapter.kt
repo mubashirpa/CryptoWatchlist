@@ -90,7 +90,7 @@ class SearchAdapter(
                 root.setOnClickListener { onClickListener.onClick(coin) }
 
                 watchlistButton.setOnClickListener {
-                    watchlistButton.isSelected = !watchlistButton.isSelected
+                    onClickListener.onAddToWatchlistClick(coin)
                 }
             }
         }
@@ -98,8 +98,11 @@ class SearchAdapter(
 
     class OnClickListener(
         val clickListener: (Coin) -> Unit,
+        val addToWatchlistClickListener: (Coin) -> Unit,
     ) {
         fun onClick(coin: Coin) = clickListener(coin)
+
+        fun onAddToWatchlistClick(coin: Coin) = addToWatchlistClickListener(coin)
     }
 
     fun Double.round(decimals: Int = 2) = "%.${decimals}f".format(this)

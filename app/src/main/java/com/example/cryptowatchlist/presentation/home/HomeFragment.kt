@@ -20,6 +20,7 @@ import com.example.cryptowatchlist.R
 import com.example.cryptowatchlist.core.Result
 import com.example.cryptowatchlist.databinding.FragmentHomeBinding
 import com.example.cryptowatchlist.presentation.components.LoaderStateAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -184,6 +185,10 @@ class HomeFragment : Fragment() {
             .setOnEditorActionListener { v, actionId, event ->
                 false
             }
+
+        binding.extendedFab.setOnClickListener {
+            // TODO: Implement navigation
+        }
     }
 
     override fun onDestroyView() {
@@ -227,9 +232,15 @@ class HomeFragment : Fragment() {
             SearchAdapter(
                 context = requireContext(),
                 onClickListener =
-                    SearchAdapter.OnClickListener {
-                        // TODO: Implement navigation
-                    },
+                    SearchAdapter.OnClickListener(
+                        clickListener = {
+                            // TODO: Implement navigation
+                        },
+                        addToWatchlistClickListener = {
+                            viewModel.onEvent(HomeUiEvent.AddCoinToWatchlist(it))
+                            showMessage(getString(R.string.added_to_watchlist, it.name))
+                        },
+                    ),
             )
 
         binding.searchRecyclerView.apply {
@@ -247,5 +258,11 @@ class HomeFragment : Fragment() {
         }
 
         return searchAdapter
+    }
+
+    private fun showMessage(message: String) {
+        Snackbar
+            .make(binding.root, message, Snackbar.LENGTH_SHORT)
+            .show()
     }
 }
