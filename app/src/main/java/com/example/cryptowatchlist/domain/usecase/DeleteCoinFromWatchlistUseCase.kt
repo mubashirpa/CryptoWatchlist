@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class AddCoinToWatchlistUseCase(
+class DeleteCoinFromWatchlistUseCase(
     private val repository: CoinAssetsRepository,
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
@@ -20,7 +20,7 @@ class AddCoinToWatchlistUseCase(
         flow {
             try {
                 emit(Result.Loading())
-                repository.insertCoin(coin.toCoinEntity())
+                repository.deleteCoin(coin.toCoinEntity())
                 emit(Result.Success(true))
             } catch (e: Exception) {
                 val message =

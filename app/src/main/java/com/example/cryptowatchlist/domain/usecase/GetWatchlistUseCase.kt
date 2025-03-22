@@ -10,7 +10,7 @@ class GetWatchlistUseCase(
     private val repository: CoinAssetsRepository,
 ) {
     operator fun invoke(): Flow<List<Coin>> =
-        repository.getWatchlist().map {
+        repository.getCoins().map {
             it.map { it.toCoinDomainModel() }
         }
 }

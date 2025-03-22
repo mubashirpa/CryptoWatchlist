@@ -7,6 +7,7 @@ import com.example.cryptowatchlist.data.remote.api.CoinCapService
 import com.example.cryptowatchlist.data.repository.CoinAssetsRepositoryImpl
 import com.example.cryptowatchlist.domain.repository.CoinAssetsRepository
 import com.example.cryptowatchlist.domain.usecase.AddCoinToWatchlistUseCase
+import com.example.cryptowatchlist.domain.usecase.DeleteCoinFromWatchlistUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsUseCase
 import com.example.cryptowatchlist.domain.usecase.GetWatchlistUseCase
 import com.example.cryptowatchlist.presentation.home.HomeViewModel
@@ -37,10 +38,12 @@ val appModule =
                     name = "coin-database",
                 ).build()
         }
+        single { get<CoinDatabase>().coinAssetsDao() }
         singleOf(::CoinAssetsRepositoryImpl) { bind<CoinAssetsRepository>() }
         single { GetCoinAssetsUseCase(get()) }
         single { AddCoinToWatchlistUseCase(get()) }
         single { GetWatchlistUseCase(get()) }
+        single { DeleteCoinFromWatchlistUseCase(get()) }
         viewModelOf(::HomeViewModel)
         viewModelOf(::WatchlistViewModel)
     }
