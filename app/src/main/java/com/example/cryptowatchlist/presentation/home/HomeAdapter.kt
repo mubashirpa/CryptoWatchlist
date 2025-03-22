@@ -1,6 +1,7 @@
 package com.example.cryptowatchlist.presentation.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -54,22 +55,26 @@ class HomeAdapter(
                         append(". ")
                         append(coin.name)
                     }
-                volume.text =
-                    buildString {
-                        append("Vol(24h) $")
-                        coin.volumeUsd24Hr?.toDoubleOrNull()
-                        append(coin.volumeUsd24Hr?.toDoubleOrNull()?.let(::formatNumber))
-                    }
+                coin.volumeUsd24Hr?.toDoubleOrNull()?.let {
+                    volume.text =
+                        buildString {
+                            append("Vol(24h) $")
+                            append(it.let(::formatNumber))
+                        }
+                    volume.visibility = View.VISIBLE
+                }
                 price.text =
                     buildString {
                         append("$")
                         append(coin.priceUsd?.toDoubleOrNull()?.let(::formatNumber))
                     }
-                percentage.text =
-                    buildString {
-                        append(coin.changePercent24Hr?.toDoubleOrNull()?.round(2))
-                        append("%")
-                    }
+                coin.changePercent24Hr?.toDoubleOrNull()?.let {
+                    percentage.text =
+                        buildString {
+                            append(it.round(2))
+                            append("%")
+                        }
+                }
 
                 root.setOnClickListener { onClickListener.onClick(coin) }
             }
