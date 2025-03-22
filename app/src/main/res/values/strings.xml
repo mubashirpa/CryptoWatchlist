@@ -9,6 +9,7 @@
 
     <!-- Screen labels -->
     <string name="label_home_screen">Home</string>
+    <string name="label_watchlist_screen">Watchlist</string>
 
     <!-- Errors -->
     <string name="error_unknown">Something wrong happened. Please try again.</string>
