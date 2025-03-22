@@ -15,10 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import com.example.cryptowatchlist.R
 import com.example.cryptowatchlist.core.Result
 import com.example.cryptowatchlist.databinding.FragmentHomeBinding
+import com.example.cryptowatchlist.navigation.Screen
 import com.example.cryptowatchlist.presentation.components.LoaderStateAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
@@ -30,6 +32,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModel()
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -187,7 +190,7 @@ class HomeFragment : Fragment() {
             }
 
         binding.extendedFab.setOnClickListener {
-            // TODO: Implement navigation
+            navController.navigate(Screen.Watchlist)
         }
     }
 
