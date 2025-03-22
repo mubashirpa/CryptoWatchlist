@@ -17,6 +17,8 @@ class CoinAssetsRepositoryImpl(
     private val api: CoinCapService,
     private val database: CoinDatabase,
 ) : CoinAssetsRepository {
+    private val coinAssetsDao = database.coinAssetsDao()
+
     override suspend fun getCoinAssets(
         search: String?,
         ids: List<String>?,
@@ -48,7 +50,7 @@ class CoinAssetsRepositoryImpl(
                     offset = offset,
                 ),
             pagingSourceFactory = {
-                database.coinAssetsDao().pagingSource()
+                coinAssetsDao.pagingSource()
             },
         ).flow
     }
