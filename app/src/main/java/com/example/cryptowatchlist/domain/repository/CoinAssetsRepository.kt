@@ -19,4 +19,6 @@ interface CoinAssetsRepository {
         limit: Int?,
         offset: Int?,
     ): Flow<PagingData<CoinEntity>>
+
+    suspend fun insertCoin(coin: CoinEntity)
 }

@@ -55,6 +55,8 @@ class CoinAssetsRepositoryImpl(
         ).flow
     }
 
+    override suspend fun insertCoin(coin: CoinEntity) = coinAssetsDao.insert(coin)
+
     companion object {
         const val NETWORK_PAGE_SIZE = 20
     }

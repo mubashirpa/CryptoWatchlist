@@ -9,6 +9,9 @@ import com.example.cryptowatchlist.data.local.entity.CoinEntity
 @Dao
 interface CoinAssetsDao {
     @Upsert
+    suspend fun insert(coin: CoinEntity)
+
+    @Upsert
     suspend fun insertAll(coins: List<CoinEntity>)
 
     @Query("SELECT * FROM coins")
