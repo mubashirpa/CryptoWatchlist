@@ -21,6 +21,6 @@ interface CoinAssetsDao {
     @Query("DELETE FROM coins")
     suspend fun clearAll()
 
-    @Query("SELECT * FROM coins")
+    @Query("SELECT * FROM coins WHERE isInWatchlist = 1")
     fun getWatchlist(): Flow<List<CoinEntity>>
 }
