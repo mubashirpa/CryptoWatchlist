@@ -8,6 +8,7 @@ import com.example.cryptowatchlist.data.repository.CoinAssetsRepositoryImpl
 import com.example.cryptowatchlist.domain.repository.CoinAssetsRepository
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsPagingUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsUseCase
+import com.example.cryptowatchlist.domain.usecase.SearchCoinAssetsUseCase
 import com.example.cryptowatchlist.presentation.home.HomeViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.bind
@@ -38,5 +39,6 @@ val appModule =
         singleOf(::CoinAssetsRepositoryImpl) { bind<CoinAssetsRepository>() }
         single { GetCoinAssetsUseCase(get()) }
         single { GetCoinAssetsPagingUseCase(get()) }
+        single { SearchCoinAssetsUseCase(get()) }
         viewModelOf(::HomeViewModel)
     }
