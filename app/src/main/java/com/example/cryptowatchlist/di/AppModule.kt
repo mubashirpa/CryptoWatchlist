@@ -6,6 +6,7 @@ import com.example.cryptowatchlist.data.local.database.CoinDatabase
 import com.example.cryptowatchlist.data.remote.api.CoinCapService
 import com.example.cryptowatchlist.data.repository.CoinAssetsRepositoryImpl
 import com.example.cryptowatchlist.domain.repository.CoinAssetsRepository
+import com.example.cryptowatchlist.domain.usecase.AddCoinToWatchlistUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsPagingUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsUseCase
 import com.example.cryptowatchlist.domain.usecase.SearchCoinAssetsUseCase
@@ -40,5 +41,6 @@ val appModule =
         single { GetCoinAssetsUseCase(get()) }
         single { GetCoinAssetsPagingUseCase(get()) }
         single { SearchCoinAssetsUseCase(get()) }
+        single { AddCoinToWatchlistUseCase(get()) }
         viewModelOf(::HomeViewModel)
     }

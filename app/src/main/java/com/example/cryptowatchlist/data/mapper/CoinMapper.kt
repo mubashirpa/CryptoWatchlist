@@ -59,3 +59,20 @@ fun CoinEntity.toCoinDomainModel(): Coin =
         volumeUsd24Hr = volumeUsd24Hr,
         vwap24Hr = vwap24Hr,
     )
+
+fun Coin.toCoinEntity(): CoinEntity =
+    CoinEntity(
+        id = id!!,
+        changePercent24Hr = changePercent24Hr,
+        explorer = explorer,
+        isInWatchlist = isInWatchlist,
+        marketCapUsd = marketCapUsd,
+        maxSupply = maxSupply,
+        name = name,
+        priceUsd = priceUsd,
+        rank = rank,
+        supply = supply,
+        symbol = symbol,
+        volumeUsd24Hr = volumeUsd24Hr,
+        vwap24Hr = vwap24Hr,
+    )
