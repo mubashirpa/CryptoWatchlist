@@ -3,7 +3,7 @@ package com.example.cryptowatchlist.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.cryptowatchlist.data.local.database.CoinDatabase
+import com.example.cryptowatchlist.data.local.dao.CoinAssetsDao
 import com.example.cryptowatchlist.data.local.entity.CoinEntity
 import com.example.cryptowatchlist.data.remote.api.CoinCapService
 import com.example.cryptowatchlist.data.remote.dto.CoinAssetsDto
@@ -14,10 +14,8 @@ import kotlinx.coroutines.flow.Flow
 
 class CoinAssetsRepositoryImpl(
     private val api: CoinCapService,
-    database: CoinDatabase,
+    private val coinAssetsDao: CoinAssetsDao,
 ) : CoinAssetsRepository {
-    private val coinAssetsDao = database.coinAssetsDao()
-
     override suspend fun getCoinAssets(
         token: String,
         search: String?,
@@ -43,7 +41,9 @@ class CoinAssetsRepositoryImpl(
             },
         ).flow
 
-    override suspend fun insertCoin(coin: CoinEntity) = coinAssetsDao.insert(coin)
+    override suspend fun insertCoin(coin: CoinEntity) = coinAssetsDao.upsertCoin(coin)
 
-    override fun getWatchlist(): Flow<List<CoinEntity>> = coinAssetsDao.getWatchlist()
+    override fun getCoins(): Flow<List<CoinEntity>> = coinAssetsDao.getCoins()
+
+    override suspend fun deleteCoin(coin: CoinEntity) = coinAssetsDao.deleteCoin(coin)
 }
