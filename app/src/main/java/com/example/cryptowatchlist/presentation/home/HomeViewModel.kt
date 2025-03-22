@@ -8,6 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.cryptowatchlist.core.Result
 import com.example.cryptowatchlist.domain.model.Coin
+import com.example.cryptowatchlist.domain.usecase.AddCoinToWatchlistUseCase
 import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsPagingUseCase
 import com.example.cryptowatchlist.domain.usecase.SearchCoinAssetsUseCase
 import kotlinx.coroutines.Job
@@ -20,6 +21,7 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val getCoinAssetsPagingUseCase: GetCoinAssetsPagingUseCase,
     private val searchCoinAssetsUseCase: SearchCoinAssetsUseCase,
+    private val addCoinToWatchlistUseCase: AddCoinToWatchlistUseCase,
 ) : ViewModel() {
     private val _coins = MutableLiveData<PagingData<Coin>>()
     val coins: LiveData<PagingData<Coin>> = _coins
@@ -35,6 +37,10 @@ class HomeViewModel(
 
     fun onEvent(event: HomeUiEvent) {
         when (event) {
+            is HomeUiEvent.AddCoinToWatchlist -> {
+                addCoinToWatchList(event.coin)
+            }
+
             is HomeUiEvent.Search -> {
                 searchCoin(event.query.trim(), event.delay)
             }
@@ -72,5 +78,9 @@ class HomeViewModel(
                         _coinsResult.value = result
                     }.launchIn(this)
             }
+    }
+
+    private fun addCoinToWatchList(coin: Coin) {
+        addCoinToWatchlistUseCase(coin).launchIn(viewModelScope)
     }
 }
