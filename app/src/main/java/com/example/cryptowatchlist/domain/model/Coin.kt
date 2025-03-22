@@ -4,6 +4,7 @@ data class Coin(
     val changePercent24Hr: String? = null,
     val explorer: String? = null,
     val id: String? = null,
+    val isInWatchlist: Boolean? = null,
     val marketCapUsd: String? = null,
     val maxSupply: String? = null,
     val name: String? = null,
