@@ -62,9 +62,14 @@ class WatchlistFragment : Fragment() {
         val adapter =
             WatchlistAdapter(
                 onClickListener =
-                    WatchlistAdapter.OnClickListener {
-                        // TODO: Navigate to coin details screen
-                    },
+                    WatchlistAdapter.OnClickListener(
+                        clickListener = {
+                            // TODO: Navigate to coin details screen
+                        },
+                        deleteFromWatchlistClickListener = {
+                            viewModel.onEvent(WatchlistUiEvent.DeleteCoinFromWatchlist(it))
+                        },
+                    ),
             )
         binding.recyclerView.adapter = adapter
 

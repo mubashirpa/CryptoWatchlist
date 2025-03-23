@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptowatchlist.databinding.ListItemCoinBinding
+import com.example.cryptowatchlist.databinding.ListItemWatchlistCoinBinding
 import com.example.cryptowatchlist.domain.model.Coin
 import java.util.Locale
 
@@ -18,7 +18,7 @@ class WatchlistAdapter(
         viewType: Int,
     ): ViewHolder {
         val binding =
-            ListItemCoinBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ListItemWatchlistCoinBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -45,7 +45,7 @@ class WatchlistAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: ListItemCoinBinding,
+        private val binding: ListItemWatchlistCoinBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bindTo(coin: Coin) {
             binding.apply {
@@ -77,14 +77,21 @@ class WatchlistAdapter(
                 }
 
                 root.setOnClickListener { onClickListener.onClick(coin) }
+
+                watchlistButton.setOnClickListener {
+                    onClickListener.onDeleteFromWatchlistClick(coin)
+                }
             }
         }
     }
 
     class OnClickListener(
         val clickListener: (Coin) -> Unit,
+        val deleteFromWatchlistClickListener: (Coin) -> Unit,
     ) {
         fun onClick(coin: Coin) = clickListener(coin)
+
+        fun onDeleteFromWatchlistClick(coin: Coin) = deleteFromWatchlistClickListener(coin)
     }
 
     fun Double.round(decimals: Int = 2) = "%.${decimals}f".format(this)
