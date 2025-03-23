@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# This rule will properly ProGuard all the model classes in
+# the package com.example.cryptowatchlist.data.remote.dto.
+-keepclassmembers class com.example.cryptowatchlist.data.remote.dto.** {
+    *;
+}
