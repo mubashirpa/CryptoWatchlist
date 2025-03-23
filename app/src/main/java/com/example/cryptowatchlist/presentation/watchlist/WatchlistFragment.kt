@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.cryptowatchlist.databinding.FragmentWatchlistBinding
+import com.example.cryptowatchlist.presentation.core.dpToPx
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WatchlistFragment : Fragment() {
@@ -45,6 +48,17 @@ class WatchlistFragment : Fragment() {
             WindowInsetsCompat.CONSUMED
         }
 
+        ViewCompat.setOnApplyWindowInsetsListener(binding.frameLayout) { v, windowInsets ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.updateLayoutParams<MarginLayoutParams> {
+                leftMargin = insets.left
+                topMargin = insets.top + dpToPx(64f, requireContext())
+                rightMargin = insets.right
+                bottomMargin = insets.bottom
+            }
+            WindowInsetsCompat.CONSUMED
+        }
+
         val adapter =
             WatchlistAdapter(
                 onClickListener =
@@ -55,7 +69,14 @@ class WatchlistFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         viewModel.watchlist.observe(viewLifecycleOwner) { watchlist ->
-            adapter.submitList(watchlist)
+            if (watchlist.isNotEmpty()) {
+                adapter.submitList(watchlist) {
+                    binding.progressCircular.visibility = View.GONE
+                }
+            } else {
+                binding.progressCircular.visibility = View.GONE
+                binding.emptyText.visibility = View.VISIBLE
+            }
         }
 
         binding.topAppBar.setNavigationOnClickListener {
