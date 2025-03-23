@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "cb1319cddf35fd557511ecbe028bc618",
+    "identityHash": "0f00b23123da9894e97e0436edc33385",
     "entities": [
       {
         "tableName": "coins",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `changePercent24Hr` TEXT, `explorer` TEXT, `isInWatchlist` INTEGER, `marketCapUsd` TEXT, `maxSupply` TEXT, `name` TEXT, `priceUsd` TEXT, `rank` TEXT, `supply` TEXT, `symbol` TEXT, `volumeUsd24Hr` TEXT, `vwap24Hr` TEXT, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `changePercent24Hr` TEXT, `explorer` TEXT, `marketCapUsd` TEXT, `maxSupply` TEXT, `name` TEXT, `priceUsd` TEXT, `rank` TEXT, `supply` TEXT, `symbol` TEXT, `volumeUsd24Hr` TEXT, `vwap24Hr` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -24,12 +24,6 @@
             "fieldPath": "explorer",
             "columnName": "explorer",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "isInWatchlist",
-            "columnName": "isInWatchlist",
-            "affinity": "INTEGER",
             "notNull": false
           },
           {
@@ -95,38 +89,12 @@
         },
         "indices": [],
         "foreignKeys": []
-      },
-      {
-        "tableName": "update_time",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, PRIMARY KEY(`id`))",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lastUpdated",
-            "columnName": "lastUpdated",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
-        ],
-        "primaryKey": {
-          "autoGenerate": false,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cb1319cddf35fd557511ecbe028bc618')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0f00b23123da9894e97e0436edc33385')"
     ]
   }
 }
