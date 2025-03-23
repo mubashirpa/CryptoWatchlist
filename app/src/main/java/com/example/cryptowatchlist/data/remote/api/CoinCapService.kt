@@ -12,7 +12,7 @@ interface CoinCapService {
     suspend fun getAssets(
         @Header("Authorization") token: String,
         @Query("search") search: String?,
-        @Query("ids") ids: List<String>?,
+        @Query("ids") ids: String?,
         @Query("limit") limit: Int?,
         @Query("offset") offset: Int?,
     ): CoinAssetsDto

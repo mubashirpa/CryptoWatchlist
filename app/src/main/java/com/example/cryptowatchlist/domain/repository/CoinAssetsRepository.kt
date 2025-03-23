@@ -10,13 +10,13 @@ interface CoinAssetsRepository {
     suspend fun getCoinAssets(
         token: String,
         search: String? = null,
-        ids: List<String>? = null,
+        ids: String? = null,
     ): CoinAssetsDto
 
     suspend fun getCoinAssets(
         token: String,
         search: String? = null,
-        ids: List<String>? = null,
+        ids: String? = null,
         limit: Int = 20,
         offset: Int = 0,
     ): Flow<PagingData<Coin>>

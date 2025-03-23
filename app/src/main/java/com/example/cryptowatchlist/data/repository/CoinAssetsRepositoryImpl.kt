@@ -19,13 +19,13 @@ class CoinAssetsRepositoryImpl(
     override suspend fun getCoinAssets(
         token: String,
         search: String?,
-        ids: List<String>?,
+        ids: String?,
     ): CoinAssetsDto = api.getAssets(token, search, ids, null, null)
 
     override suspend fun getCoinAssets(
         token: String,
         search: String?,
-        ids: List<String>?,
+        ids: String?,
         limit: Int,
         offset: Int,
     ): Flow<PagingData<Coin>> =

@@ -23,7 +23,7 @@ class GetCoinAssetsUseCase(
 
     operator fun invoke(
         search: String? = null,
-        ids: List<String>? = null,
+        ids: String? = null,
     ): Flow<Result<List<Coin>>> =
         flow {
             try {
@@ -42,7 +42,7 @@ class GetCoinAssetsUseCase(
 
     suspend operator fun invoke(
         search: String? = null,
-        ids: List<String>? = null,
+        ids: String? = null,
         limit: Int = 20,
         offset: Int = 0,
     ): Flow<PagingData<Coin>> =

@@ -12,7 +12,7 @@ class CoinAssetsPagingSource(
     private val api: CoinCapService,
     private val token: String,
     private val search: String? = null,
-    private val ids: List<String>? = null,
+    private val ids: String? = null,
     private val offset: Int = 0,
 ) : PagingSource<Int, Coin>() {
     override fun getRefreshKey(state: PagingState<Int, Coin>): Int? =
