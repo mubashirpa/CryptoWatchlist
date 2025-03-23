@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 class WatchlistViewModel(
     private val getWatchlistUseCase: GetWatchlistUseCase,
 ) : ViewModel() {
-    private val _watchlist: MutableLiveData<List<Coin>> = MutableLiveData(emptyList())
+    private val _watchlist: MutableLiveData<List<Coin>> = MutableLiveData()
     val watchlist: LiveData<List<Coin>> = _watchlist
 
     init {
