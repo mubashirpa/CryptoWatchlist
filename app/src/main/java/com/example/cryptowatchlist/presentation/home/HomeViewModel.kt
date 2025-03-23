@@ -9,8 +9,7 @@ import androidx.paging.cachedIn
 import com.example.cryptowatchlist.core.Result
 import com.example.cryptowatchlist.domain.model.Coin
 import com.example.cryptowatchlist.domain.usecase.AddCoinToWatchlistUseCase
-import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsPagingUseCase
-import com.example.cryptowatchlist.domain.usecase.SearchCoinAssetsUseCase
+import com.example.cryptowatchlist.domain.usecase.GetCoinAssetsUseCase
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -19,8 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
-    private val getCoinAssetsPagingUseCase: GetCoinAssetsPagingUseCase,
-    private val searchCoinAssetsUseCase: SearchCoinAssetsUseCase,
+    private val getCoinAssetsUseCase: GetCoinAssetsUseCase,
     private val addCoinToWatchlistUseCase: AddCoinToWatchlistUseCase,
 ) : ViewModel() {
     private val _coins = MutableLiveData<PagingData<Coin>>()
@@ -49,7 +47,7 @@ class HomeViewModel(
 
     private fun getCoins() {
         viewModelScope.launch {
-            getCoinAssetsPagingUseCase()
+            getCoinAssetsUseCase(limit = 20, offset = 0)
                 .distinctUntilChanged()
                 .cachedIn(viewModelScope)
                 .collect {
@@ -73,7 +71,7 @@ class HomeViewModel(
         searchCoinUseCaseJob =
             viewModelScope.launch {
                 delay(delay)
-                searchCoinAssetsUseCase(query)
+                getCoinAssetsUseCase(query)
                     .onEach { result ->
                         _coinsResult.value = result
                     }.launchIn(this)
