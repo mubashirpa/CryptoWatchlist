@@ -23,6 +23,24 @@ fun CoinDto.toCoinDomainModel(): Coin =
         vwap24Hr = vwap24Hr,
     )
 
+fun CoinAssetsDto.toCoinEntityList(): List<CoinEntity> = `data`?.map { it.toCoinEntity() } ?: emptyList()
+
+fun CoinDto.toCoinEntity(): CoinEntity =
+    CoinEntity(
+        id = id!!,
+        changePercent24Hr = changePercent24Hr,
+        explorer = explorer,
+        marketCapUsd = marketCapUsd,
+        maxSupply = maxSupply,
+        name = name,
+        priceUsd = priceUsd,
+        rank = rank,
+        supply = supply,
+        symbol = symbol,
+        volumeUsd24Hr = volumeUsd24Hr,
+        vwap24Hr = vwap24Hr,
+    )
+
 fun CoinEntity.toCoinDomainModel(): Coin =
     Coin(
         changePercent24Hr = changePercent24Hr,
