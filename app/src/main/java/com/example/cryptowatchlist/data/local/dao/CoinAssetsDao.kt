@@ -12,6 +12,9 @@ interface CoinAssetsDao {
     @Upsert
     suspend fun upsertCoin(coin: CoinEntity)
 
+    @Upsert
+    suspend fun upsertCoins(coins: List<CoinEntity>)
+
     @Query("SELECT * FROM coins")
     fun getCoins(): Flow<List<CoinEntity>>
 

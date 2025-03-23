@@ -23,6 +23,8 @@ interface CoinAssetsRepository {
 
     suspend fun insertCoin(coin: CoinEntity)
 
+    suspend fun insertCoins(coins: List<CoinEntity>)
+
     fun getCoins(): Flow<List<CoinEntity>>
 
     suspend fun deleteCoin(coin: CoinEntity)

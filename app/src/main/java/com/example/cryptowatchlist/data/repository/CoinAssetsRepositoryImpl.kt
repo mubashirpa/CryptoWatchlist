@@ -43,6 +43,8 @@ class CoinAssetsRepositoryImpl(
 
     override suspend fun insertCoin(coin: CoinEntity) = coinAssetsDao.upsertCoin(coin)
 
+    override suspend fun insertCoins(coins: List<CoinEntity>) = coinAssetsDao.upsertCoins(coins)
+
     override fun getCoins(): Flow<List<CoinEntity>> = coinAssetsDao.getCoins()
 
     override suspend fun deleteCoin(coin: CoinEntity) = coinAssetsDao.deleteCoin(coin)
