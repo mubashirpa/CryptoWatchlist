@@ -22,6 +22,7 @@ import com.example.cryptowatchlist.core.Result
 import com.example.cryptowatchlist.databinding.FragmentHomeBinding
 import com.example.cryptowatchlist.navigation.Screen
 import com.example.cryptowatchlist.presentation.components.LoaderStateAdapter
+import com.example.cryptowatchlist.presentation.core.dpToPx
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -53,8 +54,9 @@ class HomeFragment : Fragment() {
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updateLayoutParams<MarginLayoutParams> {
                 leftMargin = insets.left
-                bottomMargin = insets.bottom
+                topMargin = insets.top + dpToPx(88f, requireContext())
                 rightMargin = insets.right
+                bottomMargin = insets.bottom
             }
             WindowInsetsCompat.CONSUMED
         }
@@ -63,17 +65,13 @@ class HomeFragment : Fragment() {
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.updateLayoutParams<MarginLayoutParams> {
                 leftMargin = insets.left
-                bottomMargin = insets.bottom
+                bottomMargin = insets.bottom + dpToPx(88f, requireContext())
                 rightMargin = insets.right
             }
             WindowInsetsCompat.CONSUMED
         }
 
         val adapter = initRecyclerView()
-
-        viewModel.coins.observe(viewLifecycleOwner) { items ->
-            adapter.submitData(viewLifecycleOwner.lifecycle, items)
-        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -113,6 +111,10 @@ class HomeFragment : Fragment() {
                     }
                 }
             }
+        }
+
+        viewModel.coins.observe(viewLifecycleOwner) { items ->
+            adapter.submitData(viewLifecycleOwner.lifecycle, items)
         }
 
         val searchAdapter = initSearchRecyclerView()
